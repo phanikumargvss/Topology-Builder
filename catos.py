@@ -1,40 +1,42 @@
 import namecheck
 
-def parser (data, current_node, file_append, output_links):
 
-	lines = data.splitlines()	
+def parser(data, current_node, file_append, output_links):
 
-	first_line = 0
+    lines = data.splitlines()
 
-	for y in range (0,len(lines)):
-		if "Port" in lines[y]:
-			first_line = y+1
-			break
+    first_line = 0
 
-	lengths = []
-	final1 = []
-	unique = []
-	y = first_line + 1
-				
-	while y < len(lines)-3:
-		delimited_line = lines[y].split()
-		final1 = delimited_line
-		
-		if "." in final1[1]:
-			final1[1] = final1[1][0:(final1[1].index("."))]
-			
-		final2 = final1[:3]
-		final3 = current_node + "\t" + final2[1].lower() + "\t" + final2[0] + "\t" + final2[2] + "\n"
-		
-		if namecheck.namecheck(str(final2[1].lower())) is False:
-			y+=1
-			continue
+    for y in range(0, len(lines)):
+        if "Port" in lines[y]:
+            first_line = y + 1
+            break
 
-		output_links.put(final3)
+    lengths = []
+    final1 = []
+    unique = []
+    y = first_line + 1
 
-		if (final2[1].lower() != current_node.lower()) and (final2[1].lower() not in unique):
-			unique.append (final2[1].lower())					
+    while y < len(lines) - 3:
+        delimited_line = lines[y].split()
+        final1 = delimited_line
 
-		y+=1
-		
-	return unique
+        if "." in final1[1]:
+            final1[1] = final1[1][0:(final1[1].index("."))]
+
+        final2 = final1[:3]
+        final3 = current_node + "\t" + \
+            final2[1].lower() + "\t" + final2[0] + "\t" + final2[2] + "\n"
+
+        if namecheck.namecheck(str(final2[1].lower())) is False:
+            y += 1
+            continue
+
+        output_links.put(final3)
+
+        if (final2[1].lower() != current_node.lower()) and (final2[1].lower() not in unique):
+            unique.append(final2[1].lower())
+
+        y += 1
+
+    return unique
